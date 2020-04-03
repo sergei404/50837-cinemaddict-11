@@ -268,22 +268,20 @@ const createExtraTemplate = () => {
   );
 };
 
-
-
 const render = (container, template, place = `beforeend`) => {
   container.insertAdjacentHTML(place, template);
 };
 
-const header = document.querySelector('.header');
+const header = document.querySelector(`.header`);
 render(header, createProfileTemplate());
 
-const main = document.querySelector('.main');
+const main = document.querySelector(`.main`);
 render(main, createMenu());
 render(main, createFilterTemplate());
 render(main, createContentTemplate());
 
-const content = document.querySelector('.films');
-const filmList = content.querySelector('.films-list__container')
+const content = document.querySelector(`.films`);
+const filmList = content.querySelector(`.films-list__container`);
 
 function getRenderTemplate(count, feild, content) {
   new Array(count)
@@ -292,15 +290,15 @@ function getRenderTemplate(count, feild, content) {
 }
 
 getRenderTemplate(COUNT_ITEM, filmList, createFilmItem());
-render(filmList, createButton(), 'afterend');
+render(filmList, createButton(), `afterend`);
 
 
 getRenderTemplate(COUNT_TOP_AND_COMMENTED, content, createExtraTemplate());
 
-const topTemplate = document.querySelector('.films-list--extra .films-list__container');
+const topTemplate = document.querySelector(`.films-list--extra .films-list__container`);
 getRenderTemplate(COUNT_TOP_AND_COMMENTED, topTemplate, createFilmItem())
 
-const commentedTemplate = document.querySelector('.films-list--extra:last-of-type .films-list__container');
+const commentedTemplate = document.querySelector(`.films-list--extra:last-of-type .films-list__container`);
 getRenderTemplate(COUNT_TOP_AND_COMMENTED, commentedTemplate, createFilmItem())
 
 render(document.body, createPopupTemplate());
