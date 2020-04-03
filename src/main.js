@@ -283,10 +283,10 @@ render(main, createContentTemplate());
 const content = document.querySelector(`.films`);
 const filmList = content.querySelector(`.films-list__container`);
 
-function getRenderTemplate(count, feild, content) {
+function getRenderTemplate(count, feild, item) {
   new Array(count)
   .fill(` `)
-  .forEach(() => render(feild, content));
+  .forEach(() => render(feild, item));
 }
 
 getRenderTemplate(COUNT_ITEM, filmList, createFilmItem());
@@ -296,10 +296,10 @@ render(filmList, createButton(), `afterend`);
 getRenderTemplate(COUNT_TOP_AND_COMMENTED, content, createExtraTemplate());
 
 const topTemplate = document.querySelector(`.films-list--extra .films-list__container`);
-getRenderTemplate(COUNT_TOP_AND_COMMENTED, topTemplate, createFilmItem())
+getRenderTemplate(COUNT_TOP_AND_COMMENTED, topTemplate, createFilmItem());
 
 const commentedTemplate = document.querySelector(`.films-list--extra:last-of-type .films-list__container`);
-getRenderTemplate(COUNT_TOP_AND_COMMENTED, commentedTemplate, createFilmItem())
+getRenderTemplate(COUNT_TOP_AND_COMMENTED, commentedTemplate, createFilmItem());
 
 render(document.body, createPopupTemplate());
 const popup = document.querySelector(`.film-details`);
