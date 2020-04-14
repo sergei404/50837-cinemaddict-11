@@ -1,9 +1,22 @@
-export const createExtraTemplate = () => {
-  return (
-    `<section class="films-list--extra">
-      <h2 class="films-list__title">Top rated</h2>
+import {sectionTitles} from '../const.js';
 
-      <div class="films-list__container"></div
-    </section>`
-  );
+const titleMarkup = (titles) => {
+  return titles
+    .map((title) => {
+      return (
+        `<section class="films-list--extra">
+          <h2 class="films-list__title">${title}</h2>
+
+          <div class="films-list__container"></div
+        </section>`
+      );
+    });
 };
+
+
+export const createExtraTemplates = () => {
+  const titles = titleMarkup(sectionTitles);
+  return titles;
+};
+
+
