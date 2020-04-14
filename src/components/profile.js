@@ -1,8 +1,24 @@
-export const createProfileTemplate = () => {
+import {userRank} from '../const.js';
+
+
+const profileMarkup = (filter, ranks) => {
+  return ranks
+    .map((rank) => {
+      return (
+        `<p class="profile__rating">${rank.rank}</p>
+        <img class="profile__avatar" src="images/${rank.src}" alt="Avatar">`
+      );
+    }).join(`\n`);
+};
+
+
+export const createProfileTemplate = (filter) => {
+  const userProfile = profileMarkup(filter, userRank);
+
   return (
     `<section class="header__profile profile">
-      <p class="profile__rating">Movie Buff</p>
-      <img class="profile__avatar" src="images/bitmap@2x.png" alt="Avatar" width="35" height="35">
+      ${userProfile}
     </section>`
   );
 };
+
