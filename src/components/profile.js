@@ -1,24 +1,61 @@
 import {userRank} from '../const.js';
+import {createElement} from "../utils.js";
 
-
-const profileMarkup = (filter, ranks) => {
+const profileMarkup = (ranks) => {
   return ranks
     .map((rank) => {
       return (
         `<p class="profile__rating">${rank.rank}</p>
         <img class="profile__avatar" src="images/${rank.src}" alt="Avatar">`
       );
-    }).join(`\n`);
+    });
 };
 
+function getProfile(num, arr) {
+  let user = ``;
+  if (num >= 21) {
+    user = arr.find((el) => el.includes(`movie buff`));
+  } else if (num < 21 && num >= 11) {
+    user = arr.find((el) => el.includes(`fan`));;
+  } else if (num < 11 && num >= 1) {
+    user = arr.find((el) => el.includes(`novice`));;
+  }
+  return user;
+}
 
-export const createProfileTemplate = (filter) => {
-  const userProfile = profileMarkup(filter, userRank);
+const createProfileTemplate = (filter) => {
+  const filt = filter.find((el) => {
+    return el.name === `History`;
+  });
+  const user = getProfile(filt.count, profileMarkup(userRank));
 
   return (
     `<section class="header__profile profile">
-      ${userProfile}
+      ${user}
     </section>`
   );
 };
+
+export default class Profile {
+  constructor(filters) {
+    this._filters = filters;
+    this._element = null;
+  }
+
+  getTemplate() {
+    return createProfileTemplate(this._filters);
+  }
+
+  getElement() {
+    if (!this._element) {
+      this._element = createElement(this.getTemplate());
+    }
+
+    return this._element;
+  }
+
+  removeElement() {
+    this._element = null;
+  }
+}
 

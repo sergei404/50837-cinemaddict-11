@@ -1,3 +1,35 @@
+export const createElement = (template, isNodes = false) => {
+  // создаем элемент
+  const newElement = document.createElement(`div`);
+  // добавляем в него разметку
+  newElement.innerHTML = template;
+  if (isNodes) {
+    return newElement.children;
+  }
+  // возвращаем первый первого потомка созданного элемента
+  return newElement.firstChild;
+};
+
+export const RenderPosition = {
+  AFTERBEGIN: `afterbegin`,
+  BEFOREEND: `beforeend`,
+  AFTEREND: `afterend`
+};
+
+export const render = (container, element, place) => {
+  switch (place) {
+    case RenderPosition.AFTERBEGIN:
+      container.prepend(element);
+      break;
+    case RenderPosition.BEFOREEND:
+      container.append(element);
+      break;
+    case RenderPosition.AFTEREND:
+      container.after(element);
+      break;
+  }
+};
+
 export const getRandomNumber = ((min, max) => {
   return min + Math.floor(Math.random() * (max + 1 - min));
 });
@@ -20,4 +52,11 @@ export const shuffle = (arr) => {
   return arr;
 };
 
+export const getRandomDate = (sing = -1) => {
+  const period = 120 * 24 * 60 * 60 * 1000;
+  const diffValue = sing * getRandomNumber(0, period);
+  const targetDate = new Date(Date.now() + diffValue);
+
+  return targetDate;
+};
 

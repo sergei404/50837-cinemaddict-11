@@ -1,4 +1,6 @@
-import {getRandomNumber, getRandomRating, getRandomArrayItem, shuffle} from '../utils.js';
+import {getRandomNumber, getRandomRating, getRandomArrayItem, shuffle, getRandomDate} from '../utils.js';
+import {EMOJIS} from '../const.js';
+import {GENRES} from '../const.js';
 
 const posters = [
   `made-for-each-other.png`,
@@ -11,13 +13,13 @@ const posters = [
 
 const descriptions = `Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras aliquet varius magna, non porta ligula feugiat eget. Fusce tristique felis at fermentum pharetra. Aliquam id orci ut lectus varius viverra. Nullam nunc ex, convallis sed finibus eget, sollicitudin eget ante. Phasellus eros mauris, condimentum sed nibh vitae, sodales efficitur ipsum. Sed blandit, eros vel aliquam faucibus, purus ex euismod diam, eu luctus nunc ante ut dui. Sed sed nisi sed augue convallis suscipit in sed felis. Aliquam erat volutpat. Nunc fermentum tortor ac porta dapibus. In rutrum ac purus sit amet tempus.`.split(`. `).map((it) => (it.replace(`.`, ``)));
 
-const generateComment = () => {
+const generateComment = (count) => {
   return {
-    "id": ``,
+    "id": count,
     "author": `Ilya O'Reilly`,
     "comment": `a film that changed my life, a true masterpiece, post-credit scene was just amazing omg.`,
-    "date": `2019-05-11T16:12:32.554Z`,
-    "emotion": `neutral-face`
+    "date": getRandomDate().toISOString(),
+    "emotion": getRandomArrayItem(EMOJIS),
   };
 };
 
@@ -28,7 +30,8 @@ const generateComments = (count) => {
 };
 
 const generateItem = () => {
-  const date = [new Date(1255924187819).getDate(), new Date(1255924187819).toLocaleString(`en`, {month: `long`}), new Date(1255924187819).getFullYear()];
+  const rawDate = new Date(1255924187819);
+  const date = [rawDate.getDate(), rawDate.toLocaleString(`en`, {month: `long`}), rawDate.getFullYear()];
   let poster = getRandomArrayItem(posters);
   const title = poster.slice(0, poster.indexOf(`.`)).replace(/-/g, ` `);
   const description = shuffle(descriptions).slice(0, getRandomNumber(1, 5)).join(`. `);
@@ -55,17 +58,15 @@ const generateItem = () => {
         "release_country": `Finland`
       },
       "runtime": `${Math.floor(runtime / 60)}h ${runtime % 60}min`,
-      "genre": [
-        `Comedy`
-      ],
+      "genre": shuffle(GENRES).slice(0, getRandomNumber(1, GENRES.length)),
       "description": description.length > 140 ? description.slice(0, 139) + `…` : description + `.`,
     },
     "user_details": {
       "personal_rating": getRandomNumber(0, 18),
-      "watchlist": false,
-      "already_watched": true,
-      "watching_date": `2019-05-11T16:12:32.554Z`,
-      "favorite": false
+      "watchlist": Math.random > 0.5,
+      "already_watched": Math.random > 0.5,
+      "watching_date": getRandomDate().toISOString(),
+      "favorite": Math.random > 0.5
     }
   };
 };

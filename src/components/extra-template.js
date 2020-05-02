@@ -1,4 +1,5 @@
 import {sectionTitles} from '../const.js';
+import {createElement} from "../utils.js";
 
 const titleMarkup = (titles) => {
   return titles
@@ -6,17 +7,35 @@ const titleMarkup = (titles) => {
       return (
         `<section class="films-list--extra">
           <h2 class="films-list__title">${title}</h2>
-
-          <div class="films-list__container"></div
         </section>`
       );
-    });
+    }).join(`\n`);
 };
 
 
-export const createExtraTemplates = () => {
-  const titles = titleMarkup(sectionTitles);
-  return titles;
+const createExtraTemplates = () => {
+  const sections = titleMarkup(sectionTitles);
+  return sections;
 };
 
 
+export default class ExtraTemplate {
+  constructor() {
+    this._element = null;
+  }
+
+  getTemplate() {
+    return createExtraTemplates();
+  }
+
+  getElement() {
+    if (!this._element) {
+      this._element = createElement(this.getTemplate(), true);
+    }
+    return this._element;
+  }
+
+  removeElement() {
+    this._element = null;
+  }
+}
