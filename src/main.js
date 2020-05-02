@@ -10,6 +10,7 @@ import PopupComponent from './components/popup.js'; // createPopupTemplate
 import PopupFilmComponent from './components/film-popup.js'; // createPopupFilmTemplate
 import PopupCommentsComponent from './components/film-comments-popup.js'; // createPopupCommentsTemplate
 import FilmsComponent from "./components/films.js";
+import NoFilmsComponent from "./components/no-films.js";
 
 // mock
 import {generateItems} from "./mock/film-item.js";
@@ -62,7 +63,12 @@ const renderFilm = (filmElement, item) => {
 };
 
 const renderBoard = (boardComponent, items) => {
-  render(boardComponent.getElement(), new FilmsComponent().getElement(), RenderPosition.BEFOREEND);
+  if (!items.length) {
+    boardComponent.getElement().querySelector(`.films-list__title`).replaceWith(new NoFilmsComponent().getElement());
+    return;
+  }
+  const boardChildComponent = boardComponent.getElement().querySelector(`.films-list`);
+  render(boardChildComponent, new FilmsComponent().getElement(), RenderPosition.BEFOREEND);
 
   const filmElement = boardComponent.getElement().querySelector(`.films-list__container`);
   let showingTasksCount = SHOWING_TASKS_COUNT_ON_START;
@@ -72,7 +78,7 @@ const renderBoard = (boardComponent, items) => {
   });
 
   const moreButton = new ButtonComponent();
-  render(boardComponent.getElement(), moreButton.getElement(), RenderPosition.BEFOREEND);
+  render(boardChildComponent, moreButton.getElement(), RenderPosition.BEFOREEND);
 
   moreButton.getElement().addEventListener(`click`, () => {
     const prevTasksCount = showingTasksCount;
@@ -90,9 +96,10 @@ const renderBoard = (boardComponent, items) => {
   const extra = [...extraComponent.getElement()];
   extra.forEach((it) => render(boardComponent.getElement(), it, RenderPosition.BEFOREEND));
 
-  const topTemplate = extra[0];
-  const commentedTemplate = extra[1];
-
+  render(extra[0], new FilmsComponent().getElement(), RenderPosition.BEFOREEND);
+  render(extra[1], new FilmsComponent().getElement(), RenderPosition.BEFOREEND);
+  const topTemplate = extra[0].querySelector(`.films-list__container`);
+  const commentedTemplate = extra[1].querySelector(`.films-list__container`);
   items.slice().sort((prev, next)=> next[`film_info`][`total_rating`] - prev[`film_info`][`total_rating`]).slice(0, COUNT_TOP_AND_COMMENTED)
   .forEach((item) => {
     renderFilm(topTemplate, item);
