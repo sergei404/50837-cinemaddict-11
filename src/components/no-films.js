@@ -1,22 +1,19 @@
 import {createElement} from "../utils.js";
 
-const createContentTemplate = () => {
+const createNoFilmsTemplate = () => {
   return (
-    `<section class="films">
-      <section class="films-list">
-        <h2 class="films-list__title visually-hidden">All movies. Upcoming</h2>
-      </section>
-    </section`
+    `<h2 class="films-list__title">There are no movies in our database</h2>`
   );
 };
 
-export default class ContentTemplate {
+
+export default class NoFlms {
   constructor() {
     this._element = null;
   }
 
   getTemplate() {
-    return createContentTemplate();
+    return createNoFilmsTemplate();
   }
 
   getElement() {
@@ -31,5 +28,3 @@ export default class ContentTemplate {
     this._element = null;
   }
 }
-
-
