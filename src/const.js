@@ -48,4 +48,4 @@ export const generateFilters = () => {
 
 export const EMOJIS = [`smile`, `sleeping`, `puke`, `angry`];
 
-export const GENRES =  [`Comedy`, `Drama`, `Film-Noir`, `Mystery`, `Action`, `Western`, `Detective`];
+export const GENRES = [`Comedy`, `Drama`, `Film-Noir`, `Mystery`, `Action`, `Western`, `Detective`];

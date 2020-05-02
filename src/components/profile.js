@@ -16,9 +16,9 @@ function getProfile(num, arr) {
   if (num >= 21) {
     user = arr.find((el) => el.includes(`movie buff`));
   } else if (num < 21 && num >= 11) {
-    user = arr.find((el) => el.includes(`fan`));;
+    user = arr.find((el) => el.includes(`fan`));
   } else if (num < 11 && num >= 1) {
-    user = arr.find((el) => el.includes(`novice`));;
+    user = arr.find((el) => el.includes(`novice`));
   }
   return user;
 }
