@@ -1,4 +1,4 @@
-import {getRandomNumber, getRandomRating, getRandomArrayItem, shuffle, getRandomDate} from '../utils.js';
+import {getRandomNumber, getRandomRating, getRandomArrayItem, shuffle, getRandomDate} from '../utils/common.js';
 import {EMOJIS} from '../const.js';
 import {GENRES} from '../const.js';
 
