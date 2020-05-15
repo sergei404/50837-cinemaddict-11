@@ -14,4 +14,3 @@ export default class ExtraTemplate extends AbstractComponent {
     return createExtraTemplates();
   }
 }
-

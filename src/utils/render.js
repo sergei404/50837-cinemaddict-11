@@ -27,23 +27,17 @@ export const render = (container, componet, place) => {
   }
 };
 
-export const replace = (parent, newElement, oldElement) => {
-  parent.replaceChild(newElement, oldElement);
+export const replace = (newComponent, oldComponent) => {
+  const parentElement = oldComponent.getElement().parentElement;
+  const newElement = newComponent.getElement();
+  const oldElement = oldComponent.getElement();
+
+  const isExistElements = !!(newElement && oldElement);
+
+  if (isExistElements) {
+    parentElement.replaceChild(newElement, oldElement);
+  }
 };
-
-// не работает нажатие esc удаляет элементы
-// export const replace = (newComponent, oldComponent) => {
-//   //const parentElement = oldComponent.getElement().parentElement;
-//   const newElement = newComponent.getElement();
-//   const oldElement = oldComponent.getElement();
-
-//   //const isExistElements = !!(parentElement && newElement && oldElement);
-
-//   //if (isExistElements) {
-//     //parentElement.replaceWith(newElement, oldElement);
-//     oldElement.replaceWith(newElement);
-//   //}
-// };
 
 
 export const remove = (component) => {

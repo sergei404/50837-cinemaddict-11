@@ -46,4 +46,3 @@ export default class Profile extends AbstractComponent {
     return createProfileTemplate(this._filters);
   }
 }
-

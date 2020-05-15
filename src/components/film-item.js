@@ -41,7 +41,6 @@ export default class FilmItem extends AbstractComponent {
   }
 
   setFilmHandler(handler) {
-    this.getElement().querySelector(`.film-card`)
-      .addEventListener(`click`, handler);
+    this.getElement().addEventListener(`click`, handler);
   }
 }

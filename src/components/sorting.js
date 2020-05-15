@@ -21,4 +21,3 @@ export default class Sort extends AbstractComponent {
     return createSortingTemplate();
   }
 }
-

@@ -17,3 +17,4 @@ export default class Button extends AbstractComponent {
     this.getElement().addEventListener(`click`, handler);
   }
 }
+

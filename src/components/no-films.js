@@ -12,4 +12,3 @@ export default class NoFlms extends AbstractComponent {
     return createNoFilmsTemplate();
   }
 }
-

@@ -37,3 +37,4 @@ export default class Filter extends AbstractComponent {
     return createFilterTemplate(this._filters);
   }
 }
+
