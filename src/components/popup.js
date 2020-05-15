@@ -1,4 +1,8 @@
-import {createElement} from '../utils.js';
+import AbstractComponent from "./abstract-component.js";
+import PopupFilmComponent from './film-popup.js';
+import PopupCommentsComponent from './film-comments-popup.js';
+
+
 import {controlNames} from '../const.js';
 
 const filmDetailsControlsMarkup = (controls) => {
@@ -15,8 +19,11 @@ const filmDetailsControlsMarkup = (controls) => {
     }).join(`\n`);
 };
 
-const createPopupTemplate = () => {
+const createPopupTemplate = (item) => {
   const controls = filmDetailsControlsMarkup(controlNames);
+  const film = new PopupFilmComponent(item);
+  const commented = new PopupCommentsComponent(item);
+
   return (
     `<section class="film-details">
       <form class="film-details__inner" action="" method="get">
@@ -24,34 +31,29 @@ const createPopupTemplate = () => {
           <div class="film-details__close">
             <button class="film-details__close-btn" type="button">close</button>
           </div>
+          ${film.getTemplate()}
           <section class="film-details__controls">
             ${controls}
           </section>
         </div>
+        ${commented.getTemplate()}
       </form>
     </section>`
   );
 };
 
-export default class Popup {
-  constructor() {
-    this._element = null;
+export default class Popup extends AbstractComponent {
+  constructor(item) {
+    super();
+    this._item = item;
   }
 
   getTemplate() {
-    return createPopupTemplate();
+    return createPopupTemplate(this._item);
   }
 
-  getElement() {
-    if (!this._element) {
-      this._element = createElement(this.getTemplate());
-    }
-
-    return this._element;
-  }
-
-  removeElement() {
-    this._element = null;
+  setPopupHandler(handler) {
+    this.getElement().querySelector(`.film-details__close-btn`)
+      .addEventListener(`click`, handler);
   }
 }
-

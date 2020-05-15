@@ -1,5 +1,5 @@
 import {userRank} from '../const.js';
-import {createElement} from "../utils.js";
+import AbstractComponent from "./abstract-component.js";
 
 const profileMarkup = (ranks) => {
   return ranks
@@ -36,26 +36,13 @@ const createProfileTemplate = (filter) => {
   );
 };
 
-export default class Profile {
+export default class Profile extends AbstractComponent {
   constructor(filters) {
+    super();
     this._filters = filters;
-    this._element = null;
   }
 
   getTemplate() {
     return createProfileTemplate(this._filters);
   }
-
-  getElement() {
-    if (!this._element) {
-      this._element = createElement(this.getTemplate());
-    }
-
-    return this._element;
-  }
-
-  removeElement() {
-    this._element = null;
-  }
 }
-

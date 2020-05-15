@@ -1,4 +1,4 @@
-import {createElement} from "../utils.js";
+import AbstractComponent from "./abstract-component.js";
 
 const createFilmsTemplate = () => {
   return (
@@ -7,24 +7,13 @@ const createFilmsTemplate = () => {
 };
 
 
-export default class Tasks {
-  constructor() {
-    this._element = null;
-  }
-
+export default class Films extends AbstractComponent {
   getTemplate() {
     return createFilmsTemplate();
   }
 
-  getElement() {
-    if (!this._element) {
-      this._element = createElement(this.getTemplate());
-    }
-
-    return this._element;
-  }
-
-  removeElement() {
-    this._element = null;
-  }
+  // setFilmHandler(handler) {
+  //   this.getElement().addEventListener(`click`, handler);
+  // }
 }
+

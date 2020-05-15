@@ -28,8 +28,6 @@ export const userRank = [
   }
 ];
 
-export const sectionTitles = [`Top rated`, `Most commented`];
-
 const filterNames = [
   `All movies`,
   `Watchlist`,

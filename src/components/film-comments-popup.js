@@ -1,5 +1,5 @@
 import {EMOJIS} from '../const.js';
-import {createElement} from '../utils.js';
+import AbstractComponent from "./abstract-component.js";
 
 const filmCommentMarkup = (comments) => {
   return comments
@@ -61,25 +61,13 @@ const createPopupCommentsTemplate = (item) => {
   );
 };
 
-export default class PopupFilm {
+export default class PopupFilm extends AbstractComponent {
   constructor(filters) {
+    super();
     this._filters = filters;
-    this._element = null;
   }
 
   getTemplate() {
     return createPopupCommentsTemplate(this._filters);
-  }
-
-  getElement() {
-    if (!this._element) {
-      this._element = createElement(this.getTemplate());
-    }
-
-    return this._element;
-  }
-
-  removeElement() {
-    this._element = null;
   }
 }

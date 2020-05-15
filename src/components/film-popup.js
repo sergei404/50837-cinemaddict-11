@@ -1,4 +1,4 @@
-import {createElement} from '../utils.js';
+import AbstractComponent from "./abstract-component.js";
 
 const genreMarkup = (genre) => {
   return genre
@@ -18,22 +18,18 @@ const createPopupFilmTemplate = (item) => {
     `<div class="film-details__info-wrap">
       <div class="film-details__poster">
         <img class="film-details__poster-img" src="./images/posters/${poster}" alt="">
-
         <p class="film-details__age">${details[`personal_rating`]}+</p>
       </div>
-
       <div class="film-details__info">
         <div class="film-details__info-head">
           <div class="film-details__title-wrap">
             <h3 class="film-details__title">${title}</h3>
             <p class="film-details__title-original">Original: ${original}</p>
           </div>
-
           <div class="film-details__rating">
             <p class="film-details__total-rating">${rating}</p>
           </div>
         </div>
-
         <table class="film-details__table">
           <tr class="film-details__row">
             <td class="film-details__term">Director</td>
@@ -64,7 +60,6 @@ const createPopupFilmTemplate = (item) => {
             <td class="film-details__cell">${genres}</td>
           </tr>
         </table>
-
         <p class="film-details__film-description">
           ${description}
         </p>
@@ -74,26 +69,13 @@ const createPopupFilmTemplate = (item) => {
   );
 };
 
-export default class PopupFilm {
+export default class PopupFilm extends AbstractComponent {
   constructor(filters) {
+    super();
     this._filters = filters;
-    this._element = null;
   }
 
   getTemplate() {
     return createPopupFilmTemplate(this._filters);
   }
-
-  getElement() {
-    if (!this._element) {
-      this._element = createElement(this.getTemplate());
-    }
-
-    return this._element;
-  }
-
-  removeElement() {
-    this._element = null;
-  }
 }
-
