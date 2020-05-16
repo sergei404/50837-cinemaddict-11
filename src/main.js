@@ -3,7 +3,7 @@ import ContentComponent from './components/content-template.js'; // createConten
 import ProfileComponent from './components/profile.js'; // createProfileTemplate
 import StatisticsComponent from './components/statictics.js'; // createStatisticsTemplate
 import BoardController from "./controllers/board.js";
-import SortingComponent from './components/sorting.js'; // createSortTemplate
+
 
 // mock
 import {generateItems} from "./mock/film-item.js";
@@ -21,7 +21,6 @@ const statistic = document.querySelector(`.footer__statistics`);
 
 render(header, new ProfileComponent(filters), RenderPosition.BEFOREEND);
 render(main, new FilterComponent(filters), RenderPosition.BEFOREEND);
-render(main, new SortingComponent(), RenderPosition.BEFOREEND);
 
 const contentComponent = new ContentComponent();
 const boardController = new BoardController(contentComponent);

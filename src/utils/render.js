@@ -24,6 +24,9 @@ export const render = (container, componet, place) => {
     case RenderPosition.AFTEREND:
       container.after(componet.getElement());
       break;
+    case RenderPosition.BEFOREBEGIN:
+      container.before(componet.getElement());
+      break;
   }
 };
 
