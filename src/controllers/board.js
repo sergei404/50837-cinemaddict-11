@@ -5,7 +5,7 @@ import ExtraCommentedComponent from '../components/extra-commented.js'; // creat
 import PopupComponent from '../components/popup.js'; // createPopupTemplate
 import FilmsComponent from "../components/films.js";
 import NoFilmsComponent from "../components/no-films.js";
-
+import SortingComponent, {SortType} from '../components/sorting.js'; // createSortTemplate
 
 import {render, remove, replace, RenderPosition} from "../utils/render.js";
 
@@ -52,51 +52,23 @@ const renderFilm = (filmElement, item) => {
   render(filmElement, filmComponent, RenderPosition.BEFOREEND);
 };
 
-const renderBoard = (boardComponent, items) => {
-  if (!items.length) {
-    boardComponent.getElement().querySelector(`.films-list__title`).replaceWith(new NoFilmsComponent().getElement());
-    return;
+
+const getSortedTasks = (items, sortType, from, to) => {
+  let sortedItems = [];
+  const showingItema = items.slice();
+
+  switch (sortType) {
+    case SortType.RATING:
+      sortedItems = showingItema.sort((prev, next) => prev[`film_info`][`total_rating`] - next[`film_info`][`total_rating`]);
+      break;
+    case SortType.DATE:
+      sortedItems = showingItema.sort((prev, next) => Date.parse(prev.film_info.release.date) - Date.parse(next.film_info.release.date));
+      break;
+    case SortType.DEFAULT:
+      sortedItems = showingItema;
+      break;
   }
-  const boardChildComponent = boardComponent.getElement().querySelector(`.films-list`);
-  render(boardChildComponent, new FilmsComponent(), RenderPosition.BEFOREEND);
-
-  const filmElement = boardComponent.getElement().querySelector(`.films-list__container`);
-  let showingTasksCount = SHOWING_TASKS_COUNT_ON_START;
-  items.slice(0, showingTasksCount)
-  .forEach((item) => {
-    renderFilm(filmElement, item);
-  });
-
-  const moreButton = new ButtonComponent();
-  render(boardChildComponent, moreButton, RenderPosition.BEFOREEND);
-
-  moreButton.setClickHandler(() => {
-    const prevTasksCount = showingTasksCount;
-    showingTasksCount = showingTasksCount + SHOWING_TASKS_COUNT_BY_BUTTON;
-
-    items.slice(prevTasksCount, showingTasksCount)
-      .forEach((item) => renderFilm(filmElement, item));
-
-    if (showingTasksCount >= items.length) {
-      remove(moreButton);
-    }
-  });
-
-  const extraTop = new ExtraTopComponent();
-  render(boardComponent.getElement(), extraTop, RenderPosition.BEFOREEND);
-  render(extraTop.getElement(), new FilmsComponent(), RenderPosition.BEFOREEND);
-  const topTemplate = extraTop.getElement().querySelector(`.films-list__container`);
-  items.slice().sort((prev, next)=> next[`film_info`][`total_rating`] - prev[`film_info`][`total_rating`]).slice(0, COUNT_TOP_AND_COMMENTED)
-  .forEach((item) => {
-    renderFilm(topTemplate, item);
-  });
-
-  const extraCommented = new ExtraCommentedComponent();
-  render(boardComponent.getElement(), extraCommented, RenderPosition.BEFOREEND);
-  render(extraCommented.getElement(), new FilmsComponent(), RenderPosition.BEFOREEND);
-  const commentedTemplate = extraCommented.getElement().querySelector(`.films-list__container`);
-  items.slice().sort((prev, next)=> next.comments.length - prev.comments.length).slice(0, COUNT_TOP_AND_COMMENTED)
-  .forEach((item) => renderFilm(commentedTemplate, item));
+  return sortedItems.slice(from, to);
 };
 
 export default class BoardController {
@@ -108,51 +80,76 @@ export default class BoardController {
     this._extraCommentedComponent = new ExtraCommentedComponent();
     this._filmsComponent = new FilmsComponent();
     this._moreButtonComponent = new ButtonComponent();
+    this._sortComponent = new SortingComponent();
   }
 
   render(items) {
-    // const container = this._container.getElement();
+    const renderMoreButton = () => {
+      if (showingTasksCount >= items.length) {
+        return;
+      }
 
-    // if (!items.length) {
-    //   render(container, this._noTasksComponent, RenderPosition.BEFOREEND);
-    //   return;
-    // }
+      render(container.children[0], this._moreButtonComponent, RenderPosition.BEFOREEND);
 
-    // render(container, this._filmsComponent, RenderPosition.BEFOREEND);
-    // const filmElement = this._filmsComponent.getElement().querySelector(`.films-list__container`);
-    // let showingTasksCount = SHOWING_TASKS_COUNT_ON_START;
-    // items.slice(0, showingTasksCount)
-    // .forEach((item) => {
-    //   renderFilm(filmElement, item);
-    // });
+      this._moreButtonComponent.setClickHandler(() => {
+        const prevTasksCount = showingTasksCount;
+        showingTasksCount = showingTasksCount + SHOWING_TASKS_COUNT_BY_BUTTON;
 
-    // render(container, this._moreButtonComponent, RenderPosition.BEFOREEND);
-    // this._moreButtonComponent.setClickHandler(() => {
-    //   const prevTasksCount = showingTasksCount;
-    //   showingTasksCount = showingTasksCount + SHOWING_TASKS_COUNT_BY_BUTTON;
+        items.slice(prevTasksCount, showingTasksCount)
+          .forEach((item) => renderFilm(filmList.getElement(), item));
 
-    //   items.slice(prevTasksCount, showingTasksCount)
-    //     .forEach((item) => renderFilm(filmElement, item));
+        if (showingTasksCount >= items.length) {
+          remove(this._moreButtonComponent);
+        }
+      });
+    };
+    const container = this._container.getElement();
 
-    //   if (showingTasksCount >= items.length) {
-    //     remove(this._moreButtonComponent);
-    //   }
-    // });
+    if (!items.length) {
+      container.querySelector(`.films-list__title`).replaceWith(new NoFilmsComponent().getElement());
+      return;
+    }
 
-    // render(container, this._extraTopComponent, RenderPosition.BEFOREEND);
-    // render(this._extraTopComponent.getElement(), this._filmsComponent, RenderPosition.BEFOREEND);
-    // const topTemplate = this._extraTopComponent.getElement().querySelector(`.films-list__container`);
-    // items.slice().sort((prev, next)=> next[`film_info`][`total_rating`] - prev[`film_info`][`total_rating`]).slice(0, COUNT_TOP_AND_COMMENTED)
-    // .forEach((item) => {
-    //   renderFilm(topTemplate, item);
-    // });
+    const filmList = this._filmsComponent;
+    render(container.children[0], filmList, RenderPosition.BEFOREEND);
+    render(container, this._sortComponent, RenderPosition.BEFOREBEGIN);
 
-    // render(container, this._extraCommentedComponent, RenderPosition.BEFOREEND);
-    // render(this._extraCommentedComponent.getElement(), new FilmsComponent(), RenderPosition.BEFOREEND);
-    // const commentedTemplate = this._extraCommentedComponent.getElement().querySelector(`.films-list__container`);
-    // items.slice().sort((prev, next)=> next.comments.length - prev.comments.length).slice(0, COUNT_TOP_AND_COMMENTED)
-    //   .forEach((item) => renderFilm(commentedTemplate, item));
-    renderBoard(this._container, items);
+
+    let showingTasksCount = SHOWING_TASKS_COUNT_ON_START;
+    items.slice(0, showingTasksCount)
+    .forEach((item) => {
+      renderFilm(filmList.getElement(), item);
+    });
+    renderMoreButton();
+
+    this._sortComponent.setSortTypeChangeHandler((sortType) => {
+
+      showingTasksCount = SHOWING_TASKS_COUNT_BY_BUTTON;
+
+      const sortedItems = getSortedTasks(items, sortType, 0, showingTasksCount);
+
+      filmList.innerHTML = ``;
+
+      sortedItems.slice(0, showingTasksCount)
+      .forEach((item) => {
+        renderFilm(filmList.getElement(), item);
+      });
+
+      renderMoreButton();
+    });
+
+    render(container, this._extraTopComponent, RenderPosition.BEFOREEND);
+    render(this._extraTopComponent.getElement(), new FilmsComponent(), RenderPosition.BEFOREEND);
+    const topTemplate = this._extraTopComponent.getElement().querySelector(`.films-list__container`);
+    items.slice().sort((prev, next)=> next[`film_info`][`total_rating`] - prev[`film_info`][`total_rating`]).slice(0, COUNT_TOP_AND_COMMENTED)
+    .forEach((item) => {
+      renderFilm(topTemplate, item);
+    });
+
+    render(container, this._extraCommentedComponent, RenderPosition.BEFOREEND);
+    render(this._extraCommentedComponent.getElement(), new FilmsComponent(), RenderPosition.BEFOREEND);
+    const commentedTemplate = this._extraCommentedComponent.getElement().querySelector(`.films-list__container`);
+    items.slice().sort((prev, next)=> next.comments.length - prev.comments.length).slice(0, COUNT_TOP_AND_COMMENTED)
+      .forEach((item) => renderFilm(commentedTemplate, item));
   }
-  // renderBoard(this._container, tasks);
 }

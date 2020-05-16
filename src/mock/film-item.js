@@ -30,8 +30,8 @@ const generateComments = (count) => {
 };
 
 const generateItem = () => {
-  const rawDate = new Date(1255924187819);
-  const date = [rawDate.getDate(), rawDate.toLocaleString(`en`, {month: `long`}), rawDate.getFullYear()];
+  const rawDate = new Date(getRandomNumber(0, 1255924187819));
+  const date = `${rawDate.getDate()} ${rawDate.toLocaleString(`en`, {month: `long`})} ${rawDate.getFullYear()}`;
   let poster = getRandomArrayItem(posters);
   const title = poster.slice(0, poster.indexOf(`.`)).replace(/-/g, ` `);
   const description = shuffle(descriptions).slice(0, getRandomNumber(1, 5)).join(`. `);
@@ -54,7 +54,7 @@ const generateItem = () => {
         `Morgan Freeman`
       ].join(` `),
       "release": {
-        "date": date.join(` `),
+        "date": date,
         "release_country": `Finland`
       },
       "runtime": `${Math.floor(runtime / 60)}h ${runtime % 60}min`,
