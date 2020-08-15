@@ -1,5 +1,23 @@
 import AbstractComponent from "./abstract-component.js";
 
+const filterNames = [
+  `All movies`,
+  `Watchlist`,
+  `History`,
+  `Favorites`
+];
+
+const generateFilters = (items) => {
+  
+  return filterNames.map((it) => {
+    return {
+      name: it,
+      //count: Math.floor(Math.random() * 25),
+    };
+  });
+};
+
+
 const createFilterMarkup = (filter, isActive) => {
   const {name, count} = filter;
 
@@ -12,8 +30,8 @@ const createFilterMarkup = (filter, isActive) => {
 };
 
 
-const createFilterTemplate = (filters) => {
-  const filtersMarkup = filters.map((it, i) => createFilterMarkup(it, i === 0)).join(`\n`);
+const createFilterTemplate = (items) => {
+  const filtersMarkup = generateFilters(items).map((it, i) => createFilterMarkup(it, i === 0)).join(`\n`);
 
   return (
     `<nav class="main-navigation">
@@ -28,13 +46,13 @@ const createFilterTemplate = (filters) => {
 };
 
 export default class Filter extends AbstractComponent {
-  constructor(filters) {
+  constructor(items) {
     super();
-    this._filters = filters;
+    this._items = items;
   }
 
   getTemplate() {
-    return createFilterTemplate(this._filters);
+    return createFilterTemplate(this._items);
   }
 }
 

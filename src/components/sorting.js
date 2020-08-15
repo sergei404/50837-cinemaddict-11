@@ -3,6 +3,7 @@ import AbstractComponent from "./abstract-component.js";
 export const SortType = {
   RATING: `rating`,
   DATE: `date`,
+  COMMENTED: `comented`,
   DEFAULT: `default`,
 };
 
@@ -47,6 +48,12 @@ export default class Sort extends AbstractComponent {
       }
 
       const sortType = evt.target.dataset.sortType;
+      [...this.getElement().querySelectorAll(`.sort__button`)].forEach((el) => {
+        el.classList.remove(`sort__button--active`);
+        if (el === evt.target) {
+          el.classList.add(`sort__button--active`);
+        }
+      });
 
       if (this._currenSortType === sortType) {
         return;
@@ -55,6 +62,7 @@ export default class Sort extends AbstractComponent {
       this._currenSortType = sortType;
 
       handler(this._currenSortType);
+
     });
   }
 }

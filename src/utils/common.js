@@ -1,3 +1,4 @@
+/* eslint-disable no-extend-native */
 export const getRandomNumber = ((min, max) => {
   return min + Math.floor(Math.random() * (max + 1 - min));
 });
@@ -27,3 +28,8 @@ export const getRandomDate = (sing = -1) => {
 
   return targetDate;
 };
+
+export const firstLetterCaps = (str) => {
+  return str.charAt(0).toUpperCase() + str.slice(1);
+};
+

@@ -59,14 +59,14 @@ const generateItem = () => {
       },
       "runtime": `${Math.floor(runtime / 60)}h ${runtime % 60}min`,
       "genre": shuffle(GENRES).slice(0, getRandomNumber(1, GENRES.length)),
-      "description": description.length > 140 ? description.slice(0, 139) + `…` : description + `.`,
+      "description": description,
     },
     "user_details": {
       "personal_rating": getRandomNumber(0, 18),
-      "watchlist": Math.random > 0.5,
-      "already_watched": Math.random > 0.5,
+      "watchlist": Math.random() > 0.5,
+      "already_watched": Math.random() > 0.5,
       "watching_date": getRandomDate().toISOString(),
-      "favorite": Math.random > 0.5
+      "favorite": Math.random() > 0.5
     }
   };
 };

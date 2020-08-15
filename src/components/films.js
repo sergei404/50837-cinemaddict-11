@@ -11,9 +11,5 @@ export default class Films extends AbstractComponent {
   getTemplate() {
     return createFilmsTemplate();
   }
-
-  // setFilmHandler(handler) {
-  //   this.getElement().addEventListener(`click`, handler);
-  // }
 }
 

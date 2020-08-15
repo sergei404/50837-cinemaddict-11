@@ -1,8 +1,6 @@
-import AbstractComponent from "./abstract-component.js";
+import AbstractSmartComponent from "./abstract-smart-component.js";
 import PopupFilmComponent from './film-popup.js';
 import PopupCommentsComponent from './film-comments-popup.js';
-
-
 import {controlNames} from '../const.js';
 
 const filmDetailsControlsMarkup = (controls) => {
@@ -42,18 +40,82 @@ const createPopupTemplate = (item) => {
   );
 };
 
-export default class Popup extends AbstractComponent {
+export default class Popup extends AbstractSmartComponent {
   constructor(item) {
     super();
     this._item = item;
+    this._submitHandler = null;
+
+    this._subscribeOnEvents();
   }
 
   getTemplate() {
     return createPopupTemplate(this._item);
   }
 
+  recoveryListeners() {
+    this.setSubmitHandler(this._submitHandler);
+    this._subscribeOnEvents();
+  }
+
+  rerender() {
+    super.rerender();
+  }
+
   setPopupHandler(handler) {
     this.getElement().querySelector(`.film-details__close-btn`)
       .addEventListener(`click`, handler);
+
+    this._submitHandler = handler;
+  }
+
+  setWatchlistButtonClickHandler(handler) {
+    this.getElement().querySelector(`#watchlist`)
+      .addEventListener(`click`, handler);
+  }
+
+  setWatchedButtonClickHandler(handler) {
+    this.getElement().querySelector(`#watched`)
+      .addEventListener(`click`, handler);
+  }
+
+  setFavoriteButtonClickHandler(handler) {
+    this.getElement().querySelector(`#favorite`)
+      .addEventListener(`click`, handler);
+  }
+
+  _subscribeOnEvents() {
+  //   const element = this.getElement();
+
+  //   element.querySelector(`.card__date-deadline-toggle`)
+  //     .addEventListener(`click`, () => {
+  //       this._isDateShowing = !this._isDateShowing;
+
+  //       this.rerender();
+  //     });
+
+  //   element.querySelector(`.card__repeat-toggle`)
+  //     .addEventListener(`click`, () => {
+  //       this._isRepeatingTask = !this._isRepeatingTask;
+
+  //       this.rerender();
+  //     });
+
+  //   element.querySelector(`.card__repeat-toggle`)
+  //     .addEventListener(`click`, () => {
+  //       this._isRepeatingTask = !this._isRepeatingTask;
+
+  //       this.rerender();
+  //     });
+
+
+  //   const repeatDays = element.querySelector(`.card__repeat-days`);
+  //   if (repeatDays) {
+  //     repeatDays.addEventListener(`change`, (evt) => {
+  //       this._activeRepeatingDays[evt.target.value] = evt.target.checked;
+
+  //       this.rerender();
+  //     });
+  //   }
   }
 }
